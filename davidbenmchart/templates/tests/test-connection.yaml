@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "davidbenmchart.fullname" . }}-test-connection"
+  labels:
+    {{- include "davidbenmchart.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "davidbenmchart.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never
